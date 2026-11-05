@@ -228,7 +228,7 @@ tb.onclick=function(){setTheme(r.dataset.theme==="dark"?"light":"dark")};
   img.onload=function(){ msg.textContent=""; img.style.opacity="1"; };
   img.onerror=function(){ msg.textContent="This infographic could not be loaded. Check the file name in the repo: "+img.getAttribute("data-f"); img.style.opacity=".25"; };
   function show(){
-    var c=INFO[cur.id], f=c.p+"_i"+cur.i+".png";
+    var c=INFO[cur.id], f=c.p+"_i"+cur.i+"-200kb.jpeg";
     img.alt="Infographic "+cur.i+" of "+c.n;
     img.setAttribute("data-f",f);
     msg.textContent="Loading...";
@@ -238,7 +238,7 @@ tb.onclick=function(){setTheme(r.dataset.theme==="dark"?"light":"dark")};
     cnt.textContent=cur.i+" / "+c.n;
     prev.disabled=cur.i<=1; next.disabled=cur.i>=c.n;
     // preload the next image so Next feels instant
-    if(cur.i<c.n){ var p=new Image(); p.src=c.p+"_i"+(cur.i+1)+".png"; }
+    if(cur.i<c.n){ var p=new Image(); p.src=c.p+"_i"+(cur.i+1)+"-200kb.jpeg"; }
   }
   function open(id){ cur.id=id; cur.i=1; modal.classList.add("open"); show(); closeBtn.focus(); }
   function close(){ modal.classList.remove("open"); img.removeAttribute("src"); if(cur.last) cur.last.focus(); }
