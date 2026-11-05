@@ -127,7 +127,7 @@ td:first-child::before{content:"";display:inline-block;width:8px;height:8px;bord
 <script>
 // Paste your real links into L. Empty string shows "Soon".
 var L={
- ds:{notes:["https://drive.google.com/file/d/1aTl72taTzyGxaTQGWnmi6yYGuzQfW6bV/preview", "https://drive.google.com/file/d/1N9ayQEi1eG90oD1nkSJ-heoIBaCVrWx4/preview", "https://drive.google.com/file/d/14xbz8sWZsM7MDbe8CgiKmOO-Ss8jTd9r/preview", "https://drive.google.com/file/d/1W_pVCN65iDnAZe3i_I1XQS6PsgGuS_WV/preview"],qb:"https://drive.google.com/file/d/1Ry3dTBQEa_DSTZkkD5hkCXrIiS7frQt1/preview",sol:"",sample:"",cheat:"",syl:"https://drive.google.com/file/d/1l21xMrhwpc3x0NwgFnHr3dkc6ZCyTtKG/preview"},
+ ds:{notes:["https://drive.google.com/file/d/1aTl72taTzyGxaTQGWnmi6yYGuzQfW6bV/preview", "https://drive.google.com/file/d/1N9ayQEi1eG90oD1nkSJ-heoIBaCVrWx4/preview", "https://drive.google.com/file/d/14xbz8sWZsM7MDbe8CgiKmOO-Ss8jTd9r/preview", "https://drive.google.com/file/d/1W_pVCN65iDnAZe3i_I1XQS6PsgGuS_WV/preview"],qb:"https://drive.google.com/file/d/1Ry3dTBQEa_DSTZkkD5hkCXrIiS7frQt1/preview",sol:"https://drive.google.com/file/d/1ZP-okk9Ty0T7YVKCA807_kFeZUSplbTj/preview",sample:"",cheat:"",syl:"https://drive.google.com/file/d/1l21xMrhwpc3x0NwgFnHr3dkc6ZCyTtKG/preview"},
  oomd:{notes:"",qb:"https://drive.google.com/file/d/1q3_xAA0y47JsnTzJwbU8prsKKzh1iQtS/preview",sol:"",sample:"",cheat:"",syl:"https://drive.google.com/file/d/1nvHfds4AhCqvxQZ2uJ2NJBXMYGGqdTF0/preview"},
  ai:{notes:["https://drive.google.com/file/d/1b_FJaJCVXZxb7MK6coFseK8ibMmJbwad/preview", "https://drive.google.com/file/d/11yvSKQCUaYlfxNtmxEHx1GZcL5O1iBw9/preview"],qb:"https://drive.google.com/file/d/1QvbKtM5iX-u3wJ5ON41bwwNdWInVooXz/preview",sol:"",sample:"",cheat:"",syl:"https://drive.google.com/file/d/1u8RSoY-oS09h2znTyMy5hXNf8joIe3tf/preview"},
  devops:{notes:"",qb:"",sol:"",sample:"",cheat:"",syl:"https://drive.google.com/file/d/15mQ7eT3NHACznBOLPp5OxKJu8-IXua_I/preview"},
@@ -154,7 +154,7 @@ var P=[
  ["Diagram practice","Describe how to draw the diagram for [TOPIC] step by step, with labels to include."]];
 var T=[["18 Nov","Wednesday","Distributed Systems","#ff7a6e"],["20 Nov","Friday","Object Oriented Modelling and System Design","#ffb84d"],["23 Nov","Monday","DevOps / Agentic AI (elective)","#35d6a0"],["27 Nov","Friday","Research Methodology","#4fb3ff"]];
 var AR='<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11l6-6M6 5h5v5"/></svg>';
-var INFO={ds:{p:"ds",n:7},oomd:{p:"oomd",n:6},ai:{p:"agentic",n:5},devops:{p:"devops",n:0},rm:{p:"rm",n:5}};
+var INFO={ds:{p:"ds",n:7},oomd:{p:"oomd",n:6},ai:{p:"Agentic",n:5},devops:{p:"devops",n:0},rm:{p:"rm",n:6}};
 function infoRow(id){
   var c=INFO[id];
   if(!c||!c.n) return "";
@@ -224,12 +224,21 @@ tb.onclick=function(){setTheme(r.dataset.theme==="dark"?"light":"dark")};
       cnt=document.getElementById("imCount"),prev=document.getElementById("imPrev"),
       next=document.getElementById("imNext"),closeBtn=document.getElementById("imClose"),
       cur={id:null,i:1,last:null};
+  var msg=document.getElementById("imMsg")||(function(){var m=document.createElement("p");m.id="imMsg";m.style.cssText="margin:12px 0 0;font-size:14px;opacity:.8;text-align:center";img.parentNode.insertBefore(m,img.nextSibling);return m;})();
+  img.onload=function(){ msg.textContent=""; img.style.opacity="1"; };
+  img.onerror=function(){ msg.textContent="This infographic could not be loaded. Check the file name in the repo: "+img.getAttribute("data-f"); img.style.opacity=".25"; };
   function show(){
-    var c=INFO[cur.id];
+    var c=INFO[cur.id], f=c.p+"_i"+cur.i+".png";
     img.alt="Infographic "+cur.i+" of "+c.n;
-    img.src=c.p+"_i"+cur.i+".png";
+    img.setAttribute("data-f",f);
+    msg.textContent="Loading...";
+    img.style.opacity=".5";
+    img.src=f+"?v=1";
+    img.decoding="async";
     cnt.textContent=cur.i+" / "+c.n;
     prev.disabled=cur.i<=1; next.disabled=cur.i>=c.n;
+    // preload the next image so Next feels instant
+    if(cur.i<c.n){ var p=new Image(); p.src=c.p+"_i"+(cur.i+1)+".png"; }
   }
   function open(id){ cur.id=id; cur.i=1; modal.classList.add("open"); show(); closeBtn.focus(); }
   function close(){ modal.classList.remove("open"); img.removeAttribute("src"); if(cur.last) cur.last.focus(); }
