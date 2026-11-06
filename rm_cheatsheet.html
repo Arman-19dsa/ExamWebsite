@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Research Methodology Cheat Sheet</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%93%98%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#f6f7f9;--ink:#1d2530;--mute:#566170;--rule:#d3d9e0;--accent:#0f5c6e;--card:#ffffff;--bar:#0f5c6e;--bar-ink:#ffffff;--code:#eaf0f3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12171d;--ink:#e6eaef;--mute:#a2adba;--rule:#2d3742;--accent:#6cc3d5;--card:#1a212a;--bar:#0b3a46;--bar-ink:#ffffff;--code:#232d38;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12171d;--ink:#e6eaef;--mute:#a2adba;--rule:#2d3742;--accent:#6cc3d5;--card:#1a212a;--bar:#0b3a46;--bar-ink:#ffffff;--code:#232d38;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Charter,"Iowan Old Style",Georgia,serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bar);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bar);color:var(--bar-ink);padding:.8rem 1.25rem;z-index:11}
+header h1{margin:0;font:700 1.25rem/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.01em}
+main{max-width:76rem;margin:0 auto;padding:1.25rem 1.25rem 3rem}
+h2{font:700 1.35rem/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--accent);margin:2.2rem 0 .8rem;padding-bottom:.35rem;border-bottom:2px solid var(--accent)}
+.grid{columns:21rem;column-gap:1.25rem}
+.t{break-inside:avoid;background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:.8rem 1rem .6rem;margin:0 0 1.25rem}
+h3{margin:0 0 .4rem;font:700 1.05rem/1.3 system-ui,-apple-system,"Segoe UI",sans-serif}
+ul{margin:0;padding-left:1.15rem}
+li{margin:.28rem 0}
+b{font-weight:700}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font:.92em/1.4 inherit;font-style:italic}
+.eg{color:var(--mute)}
+@media (max-width:30rem){main{padding:1rem .9rem 2.5rem}}
+</style>
+</head>
+<body>
+<header><h1>Research Methodology Cheat Sheet</h1></header>
+<main>
+
+<h2>Unit I: Research basics and ethics</h2>
+<div class="grid">
+
+<section class="t"><h3>Research methodology</h3><ul>
+<li>The systematic study of the methods, techniques and logic used to do research.</li>
+<li><b>Nature:</b> systematic, logical, objective, repeatable, goal-oriented.</li>
+<li><b>Scope:</b> problem, design, data, analysis, reporting, ethics.</li>
+<li><b>Objectives of research:</b> new knowledge, solve problems, new products, improve systems, test ideas.</li>
+<li><b>Why it matters:</b> valid and repeatable results, less bias, saves time and cost.</li>
+</ul></section>
+
+<section class="t"><h3>Types of research</h3><ul>
+<li><b>Basic:</b> new knowledge or theory. <span class="eg">Eg: why deep networks generalise.</span></li>
+<li><b>Applied:</b> solve a practical problem. <span class="eg">Eg: crop disease detection app.</span></li>
+<li><b>Exploratory:</b> new area, little prior work. <span class="eg">Eg: Generative AI in software testing.</span></li>
+<li><b>Experimental:</b> change variables under control and measure the effect. <span class="eg">Eg: learning rate vs accuracy.</span></li>
+<li><b>Quick trick:</b> theory = basic, product = applied, “limited studies” = exploratory, “effect of” or “compare” = experimental.</li>
+</ul></section>
+
+<section class="t"><h3>Research process</h3><ul>
+<li>Problem → literature review → gap → objectives and hypothesis → methodology → data collection → analysis → interpretation → report.</li>
+<li>It is iterative: if objectives are not met, go back to the methodology.</li>
+<li><b>ML project workflow:</b> define problem → collect data → preprocess → build model → evaluate → deploy and report.</li>
+<li><b>Preprocessing:</b> clean, fill gaps, remove outliers, scale, add features.</li>
+</ul></section>
+
+<section class="t"><h3>Problem, question, objectives</h3><ul>
+<li><b>Problem</b> = what is wrong. <b>Question</b> = what to find out. <b>Objective</b> = what to do. <b>Methodology</b> = how.</li>
+<li><b>Good question:</b> clear, specific, researchable, measurable, relevant, feasible, ethical.</li>
+<li><b>Measurable objective</b> has a number. <span class="eg">Eg: reach at least 90% accuracy in under 2 seconds.</span></li>
+<li><b>Hypothesis:</b> H₀ = no effect, H₁ = effect.</li>
+</ul></section>
+
+<section class="t"><h3>Research ethics</h3><ul>
+<li><b>Principles:</b> honesty, public safety, objectivity, confidentiality, respect for intellectual property, accountability.</li>
+<li><b>Practices:</b> no fabrication or plagiarism, cite sources, take consent, get ethics approval, keep records.</li>
+<li><b>Data issues:</b> consent, privacy, security, bias, purpose limitation.</li>
+<li><b>Anonymisation:</b> removing names is not enough. Age, address, admission date and a rare disease are quasi-identifiers (linkage attack). Fix: use ranges, generalise, restrict access.</li>
+<li><b>Face data:</b> cannot be changed, so give notice, take consent, limit use, delete after a fixed time.</li>
+<li><b>IEEE:</b> public safety first, honesty, avoid conflicts, credit others. <b>ACM:</b> avoid harm, honesty, fairness, privacy, security.</li>
+</ul></section>
+
+</div>
+
+<h2>Unit II: Literature, proposals and bibliometrics</h2>
+<div class="grid">
+
+<section class="t"><h3>Literature review and research gap</h3><ul>
+<li><b>Steps:</b> keywords → Boolean search (AND, OR) → databases → filters → screen title, abstract, full text → review table → gap.</li>
+<li><b>Databases:</b> Google Scholar, Scopus, IEEE Xplore, ACM Digital Library, CiteSeerX, Shodhganga, ResearchGate.</li>
+<li><b>Gap:</b> what earlier work missed, such as small data, no validation or lab-only testing.</li>
+<li><b>Gap decides method:</b> no cause shown → experimental; new area → exploratory; lab-only → field study.</li>
+</ul></section>
+
+<section class="t"><h3>Research sources</h3><ul>
+<li><b>Journal paper:</b> peer-reviewed, detailed, complete validated results.</li>
+<li><b>Conference paper:</b> short, fast, recent work.</li>
+<li><b>Patent:</b> legal right for an invention; claims and description.</li>
+<li><b>Thesis:</b> long degree document with full review (Shodhganga).</li>
+<li><b>Book:</b> settled knowledge and basics.</li>
+<li><b>Spot in IEEE style:</b> volume and pages = journal; “in Proc.” = conference; “U.S. Patent” = patent; “thesis, Dept., University” = thesis.</li>
+</ul></section>
+
+<section class="t"><h3>Proposal vs paper</h3><ul>
+<li><b>Proposal parts:</b> title, abstract, background, problem, literature and gap, objectives, scope, methodology, expected outcomes, timeline, budget, ethics, references.</li>
+<li><b>Proposal:</b> written before the work, future tense, plan and budget.</li>
+<li><b>Paper:</b> written after the work, past tense, actual results.</li>
+<li><b>Why each part:</b> title shows topic, question gives focus, objectives are measurable, methodology shows how, budget shows cost.</li>
+</ul></section>
+
+<section class="t"><h3>Bibliometrics</h3><ul>
+<li><b>Impact Factor</b> = citations in the year to the previous 2 years’ articles ÷ citable articles of those 2 years. <span class="eg">Eg: 280 ÷ 120 = 2.33.</span></li>
+<li><b>h-index:</b> largest h such that h papers have at least h citations. <span class="eg">Eg: 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 gives h = 6.</span></li>
+<li><b>Method:</b> sort in descending order and compare each count with its rank.</li>
+<li><b>i10-index:</b> number of papers with at least 10 citations.</li>
+<li><b>g-index:</b> largest g such that the top g papers have at least g² citations together.</li>
+<li>Impact factor is for a journal. h, i10 and g are for an author or group.</li>
+</ul></section>
+
+</div>
+
+<h2>Unit III: Statistics, errors and sampling</h2>
+<div class="grid">
+
+<section class="t"><h3>Hypothesis testing</h3><ul>
+<li><b>Steps:</b> state H₀ and H₁ → choose α (0.05) → run the test → get the p-value → decide.</li>
+<li><b>Rule:</b> p &lt; α: reject H₀ (significant). p ≥ α: fail to reject H₀ (never say “accept”).</li>
+<li><b>p-value:</b> chance of a result this extreme if H₀ is true.</li>
+<li><b>Type-I error (α):</b> reject a true H₀, a false positive.</li>
+<li><b>Type-II error (β):</b> miss a real effect, a false negative. Power = 1 − β.</li>
+<li><span class="eg">Eg: p = 0.032 → reject. p = 0.051 → fail to reject.</span></li>
+</ul></section>
+
+<section class="t"><h3>Choosing a test</h3><ul>
+<li><b>Two group means:</b> <code>t = (x̄₁ − x̄₂) ÷ [s<sub>p</sub> √(1/n₁ + 1/n₂)]</code>, <code>s<sub>p</sub>² = (SS₁ + SS₂) ÷ (n₁ + n₂ − 2)</code>.</li>
+<li><b>Paired (same folds):</b> <code>t = d̄ ÷ (s<sub>d</sub> ÷ √n)</code>, df = n − 1. Non-normal differences: Wilcoxon.</li>
+<li><b>Three or more means:</b> ANOVA, <code>F = MSB ÷ MSW</code>, <code>MSB = SSB ÷ (k − 1)</code>, <code>MSW = SSW ÷ (N − k)</code>. Reject H₀ if F is more than the critical F. Then use a post-hoc test.</li>
+<li><b>Why not many t-tests:</b> Type-I error rises.</li>
+<li><b>Pearson r:</b> <code>r = Σ(x − x̄)(y − ȳ) ÷ √[Σ(x − x̄)² · Σ(y − ȳ)²]</code>, from −1 to +1. <span class="eg">Eg: study hours vs marks, r = 0.995.</span></li>
+<li><b>Partial correlation:</b> <code>r<sub>xy.z</sub> = (r<sub>xy</sub> − r<sub>xz</sub> r<sub>yz</sub>) ÷ √[(1 − r<sub>xz</sub>²)(1 − r<sub>yz</sub>²)]</code></li>
+</ul></section>
+
+<section class="t"><h3>Sampling and confidence interval</h3><ul>
+<li><b>Probability sampling:</b> simple random, systematic, stratified, cluster. Results can be generalised.</li>
+<li><b>Non-probability sampling:</b> convenience, purposive, quota, snowball. Quick but may be biased.</li>
+<li><b>95% CI for a mean:</b> <code>x̄ ± 1.96 × s ÷ √n</code> (use t for small n).</li>
+<li><span class="eg">Eg: mean 85, s = 4, n = 25 gives 85 ± 1.57.</span></li>
+<li>A bigger sample gives a narrower interval.</li>
+</ul></section>
+
+<section class="t"><h3>Errors and uncertainty</h3><ul>
+<li><b>Random error:</b> unpredictable, lowers precision, average many readings.</li>
+<li><b>Systematic error:</b> fixed shift, lowers accuracy, fix by calibration.</li>
+<li><b>Sources:</b> instrument, environment, observer, method, sampling, computation.</li>
+<li><b>Mean</b> = Σx ÷ n. <b>Sample SD</b> <code>s = √[Σ(x − x̄)² ÷ (n − 1)]</code>. <b>Standard error</b> = <code>s ÷ √n</code>.</li>
+<li><b>Combine errors:</b> sum or difference <code>σ = √(σ₁² + σ₂²)</code>; product or quotient: add relative errors in quadrature.</li>
+<li><span class="eg">Eg: 48, 51, 49, 52, 50 ms gives mean 50, s = 1.58, SE = 0.71.</span></li>
+</ul></section>
+
+<section class="t"><h3>Multiple testing, Gini and funding</h3><ul>
+<li><b>Chance of at least one false positive</b> = 1 − (1 − α)<sup>m</sup>. <span class="eg">Eg: m = 20 gives 64%.</span></li>
+<li><b>Fixes:</b> Bonferroni (α ÷ m), Holm, false discovery rate.</li>
+<li><b>Gini impurity</b> = 1 − Σp² (lower = purer node). <b>Gini coefficient</b> = inequality, 0 to 1.</li>
+<li><b>Research funding:</b> pays for equipment, people, data and publication, and improves planning.</li>
+</ul></section>
+
+</div>
+
+<h2>Unit IV: Optimisation</h2>
+<div class="grid">
+
+<section class="t"><h3>Optimisation basics</h3><ul>
+<li>Find the best values of the decision variables to minimise or maximise an objective, under constraints.</li>
+<li><b>Parts:</b> variables, objective function, constraints.</li>
+<li><span class="eg">Eg: minimise run time T(threads, cache, batch) with threads ≤ CPU cores.</span></li>
+<li><b>Constraints guide the method:</b> bounds → projected methods; equality → Lagrange; inequality → penalty or barrier.</li>
+</ul></section>
+
+<section class="t"><h3>Main methods</h3><ul>
+<li><b>Sequential uniform sampling:</b> evenly spaced grid, repeatable, cost m<sup>n</sup> for n variables.</li>
+<li><b>Monte Carlo:</b> random points, depends on the seed, good for many variables.</li>
+<li><b>Gradient descent:</b> <code>θ ← θ − η ∇J(θ)</code>. <b>Newton:</b> <code>x ← x − H⁻¹ ∇f</code> (fast but costly).</li>
+<li><b>Batch GD</b> uses all samples; <b>SGD</b> uses one; <b>mini-batch</b> uses a small group (best balance).</li>
+<li><b>Direct search</b> needs no derivatives. <b>Gradient-based</b> is fast on smooth functions but may stick in a local minimum.</li>
+<li><b>Simplex (2 variables):</b> order B, G, W → centroid M = (B + G) ÷ 2 → reflect R = M + (M − W) → expand E = M + 2(M − W) → contract C = M + 0.5(W − M) → shrink towards B → stop when the triangle is small.</li>
+</ul></section>
+
+<section class="t"><h3>Learning rate, cost and tuning</h3><ul>
+<li><b>Learning rate η:</b> small = slow, good = fast, large = overshoot or diverge. <span class="eg">Eg: J = θ², θ₀ = 4: η = 0.5 reaches 0 in one step; η = 1.1 diverges.</span></li>
+<li><b>Stop when:</b> gradient is near 0, change is small, maximum iterations, or early stopping.</li>
+<li><b>MSE</b> = <code>(1 ÷ m) Σ(yᵢ − ŷᵢ)²</code>. Sensitive to outliers (Huber is robust). Add λ‖w‖² against overfitting.</li>
+<li><b>Local minimum, saddle point, flat region:</b> slow or false convergence. Use momentum, Adam or random restarts.</li>
+<li><b>Hyperparameter tuning:</b> grid (all combinations), random (faster), Bayesian (fewest trials), genetic (complex spaces).</li>
+<li><span class="eg">Eg: best of the table is learning rate 0.05, batch 32 → 96%.</span></li>
+</ul></section>
+
+</div>
+
+</main>
+</body>
+</html>

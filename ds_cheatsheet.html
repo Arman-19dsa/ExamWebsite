@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distributed Systems Cheatsheet</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.35;color:#111;margin:0;background:#fff}
+header{background:#1f3a5f;color:#fff;padding:14px 24px}
+header h1{margin:0;font-size:22px}
+section{padding:14px 24px;page-break-after:always;border-bottom:3px solid #1f3a5f}
+section:last-child{page-break-after:auto}
+h2{font-size:17px;color:#1f3a5f;margin:0 0 6px;border-bottom:2px solid #1f3a5f}
+h3{font-size:13px;margin:9px 0 2px;color:#8a2b0e}
+ul{margin:2px 0 2px 18px;padding:0}
+li{margin:1px 0}
+.ex{background:#fff6dc;border-left:4px solid #e0a800;padding:3px 8px;margin:3px 0}
+.cols{columns:2;column-gap:24px}
+.cols h3{break-after:avoid}.cols>div{break-inside:avoid}
+code{background:#eef;padding:0 3px}
+@media print{section{padding:8px 14px}body{font-size:10.5px}}
+</style></head><body>
+<header><h1>Distributed Systems Cheatsheet</h1></header>
+
+<section>
+<h2>Unit 1: Introduction, Architectures &amp; Design Issues</h2>
+<div class="cols">
+<div><h3>Distributed vs Centralized System</h3>
+<ul><li><b>Def:</b> independent computers connected by a network that appear to users as one coherent system.</li>
+<li><b>Key idea:</b> share resources and coordinate only by message passing.</li>
+<li>Distributed: no shared clock/memory, multiple points of failure but no single one, scalable, concurrent, transparency needed.</li>
+<li>Centralized: one server, single point of failure, easy control and consistency, limited scaling.</li></ul>
+<div class="ex"><b>Ex (hospital, 5 cities):</b> single HQ server = all hospitals lose records on failure. Distributed replicas = higher availability, resource sharing, but need coordination/consistency.</div></div>
+
+<div><h3>Goals / Characteristics</h3>
+<ul><li><b>Resource sharing</b> (files, CPU, devices)</li>
+<li><b>Openness</b> (standard, published interfaces)</li>
+<li><b>Scalability</b> (size, geography, administration)</li>
+<li><b>Transparency</b>: access, location, migration, relocation, replication, concurrency, failure</li>
+<li><b>Fault tolerance &amp; availability</b>: redundancy, failure detection, failover</li>
+<li><b>Heterogeneity</b>: hardware, OS, network, language, data format</li>
+<li><b>Concurrency</b> and <b>Security</b> (confidentiality, integrity, availability)</li></ul>
+<div class="ex"><b>Ex (offices in Pune/Delhi/Bengaluru):</b> shared docs = resource sharing; add office easily = scalability/openness; users unaware of location = location transparency; local failure tolerated = replication.</div></div>
+
+<div><h3>Architectural Models</h3>
+<ul><li><b>Client-server:</b> clients request, central server serves. Simple, centrally managed, server is bottleneck/SPOF. Fits exam system, student-record system.</li>
+<li><b>Peer-to-peer:</b> every peer is client and server. Scales, no SPOF, harder discovery/security/control. Peer discovery, lookup (index/flooding/DHT), direct transfer. Fits file sharing.</li>
+<li><b>Multi-tier:</b> Presentation (UI, login screens), Application (business logic, order, payment coordination), Data (database). Each tier scales and is maintained independently. Fits admission portal, retailer.</li>
+<li><b>Hybrid:</b> central index/tracker + P2P transfer; used in video conferencing and content distribution.</li></ul>
+<div class="ex"><b>Ex:</b> Retailer sale traffic: replicate stateless app tier behind load balancer, cache in front of DB, scale tiers separately.</div></div>
+
+<div><h3>Middleware</h3>
+<ul><li><b>Def:</b> software layer between OS/network and applications.</li>
+<li><b>Key idea:</b> hides heterogeneity, gives uniform communication (RPC, messaging, objects).</li>
+<li>Hides: OS, hardware, network protocol, language differences, data representation (marshalling).</li>
+<li>Not hidden: application semantics, business-level data meaning, performance, partial failures.</li></ul>
+<div class="ex"><b>Ex (Java/Linux + .NET/Windows + Python merger):</b> use common protocol and format (REST/JSON, gRPC, message queue) instead of rewriting.</div></div>
+
+<div><h3>Heterogeneity Levels</h3>
+<ul><li>Hardware: byte order, word size</li><li>OS: APIs, file systems</li><li>Communication: protocols, interfaces</li><li>Data: formats, encodings (use XDR/JSON/XML/Protobuf)</li></ul>
+
+<h3>Design Issues in Large Systems</h3>
+<ul><li>Conflicts: scalability vs consistency, transparency vs performance, security vs speed, fault tolerance vs cost.</li>
+<li>Cloud app: balance scalability, availability, performance via tiers, replication, caching.</li></ul></div>
+
+<div><h3>Distributed Multimedia &amp; WAN Performance</h3>
+<ul><li>Multimedia needs QoS: bandwidth, low delay, low jitter, synchronization of audio/video.</li>
+<li>Problems: buffering, bandwidth variation, server load, node failure.</li>
+<li>Solutions: adaptive bitrate, buffering, CDN, replicated servers, load balancing, multicast/hybrid P2P.</li>
+<li>WAN factors: latency (distance), bandwidth, congestion, packet loss, server load, routing, consistency overhead.</li></ul>
+<div class="ex"><b>Ex (live sports streaming):</b> centralized = bottleneck; multi-tier = better; distributed CDN = best scalability, latency, fault tolerance but harder synchronization.</div></div>
+
+<div><h3>Fault Tolerance vs Availability</h3>
+<ul><li>Availability = fraction of time service is up. Fault tolerance = continue correctly despite faults.</li>
+<li>Redundancy + failure detection (heartbeat/timeouts) + failover.</li>
+<li>Network partition: cannot sync updates, so trade consistency for availability (CAP).</li></ul>
+<h3>Healthcare / Bank Requirements</h3>
+<ul><li>Security: authentication, encryption, access control. Scalability: tiers, replication. Fault tolerance: replicated servers. Consistency: transactions/locking for concurrency.</li></ul></div>
+</div>
+</section>
+
+<section>
+<h2>Unit 2: Communication</h2>
+<div class="cols">
+<div><h3>Basic Communication Model</h3>
+<ul><li><b>Elements:</b> sender, receiver, message, channel (+ protocol).</li>
+<li><b>Key idea:</b> processes interact only by exchanging messages.</li></ul>
+<div class="ex"><b>Ex:</b> browser (sender) sends HTTP request (message) over TCP (channel) to web server (receiver).</div></div>
+
+<div><h3>Remote Procedure Call (RPC)</h3>
+<ul><li><b>Def:</b> call a remote procedure as if local.</li>
+<li><b>Key idea:</b> stubs hide the network.</li>
+<li><b>Sequence:</b> client calls client stub → marshal (serialize) parameters → send via runtime/network → server stub unmarshals → server executes procedure → result marshalled → returned → client stub unmarshals → returns to caller.</li>
+<li>Parameters: pass by value (copy); references need deep copy or global reference; use IDL/XDR for representation.</li>
+<li><b>Error handling:</b> timeout, retry, unique request ID, duplicate detection (server stores IDs/results), idempotent operations.</li>
+<li><b>Semantics:</b> at-least-once, at-most-once, exactly-once (hard).</li></ul>
+<div class="ex"><b>Ex (bank fund transfer):</b> response lost → client retries with same request ID → server detects duplicate and returns stored result, so no double debit.</div></div>
+
+<div><h3>Message-Oriented Communication</h3>
+<ul><li><b>Def:</b> async messages via queues/brokers (producer → queue → consumer).</li>
+<li><b>Key idea:</b> decouples sender and receiver in time; no need to be up simultaneously.</li>
+<li>Models: sync/async, transient/persistent. Delivery: ack, at-least-once, ordering. Examples: RabbitMQ, Kafka, MQ.</li></ul>
+<div class="ex"><b>Ex:</b> Order service publishes "OrderPlaced" to queue; notification, inventory and shipping services consume independently.</div></div>
+
+<div><h3>Stream-Oriented Communication</h3>
+<ul><li><b>Def:</b> continuous, time-dependent media flow (audio/video).</li>
+<li><b>Key idea:</b> timing matters as much as data.</li>
+<li>Needs: QoS (bandwidth, delay, jitter), playout <b>buffering</b>, <b>jitter control</b>, A/V synchronization (timestamps), adaptive bitrate, UDP/RTP/RTCP.</li>
+<li>Under varying bandwidth: adapt quality, buffer, FEC/retransmit selectively.</li></ul>
+<div class="ex"><b>Ex:</b> Conferencing: control messages by RPC/messages, audio and video as separate streams synchronized via timestamps.</div></div>
+
+<div><h3>Peer-to-Peer Messaging</h3>
+<ul><li>Direct peer message exchange: discovery (tracker/DHT) → lookup → connect → transfer.</li>
+<li>Signaling server needed across NAT/different networks.</li></ul>
+
+<h3>WebRTC</h3>
+<ul><li><b>Def:</b> browser real-time audio/video/data, peer to peer.</li>
+<li><b>Signaling</b> (WebSocket/HTTP, not defined by WebRTC) exchanges: <b>SDP offer</b> (caller) → <b>SDP answer</b> (callee) → <b>ICE candidates</b> both ways.</li>
+<li><b>ICE</b> connectivity checks pick best path; <b>STUN</b> discovers public address; <b>TURN</b> relays if direct fails.</li>
+<li>Then DTLS-SRTP media (audio/video tracks) and RTCDataChannel (text/files).</li></ul></div>
+
+<div><h3>Choosing a Mechanism</h3>
+<ul><li><b>RPC:</b> low-latency request-response (meeting creation, balance query).</li>
+<li><b>Message-oriented:</b> async alerts/notifications, intermittent links, reliable.</li>
+<li><b>Stream:</b> live audio/video.</li>
+<li><b>P2P/WebRTC:</b> direct data/media, scales with users, reduces server load.</li></ul>
+<div class="ex"><b>Ex (telemedicine):</b> booking → RPC; notifications → message queue; consultation → WebRTC stream; record update → RPC with duplicate detection.</div>
+<div class="ex"><b>Ex (emergency platform):</b> RPC for patient status requests, queue for alerts (survive intermittent links), stream for live video.</div></div>
+</div>
+</section>
+
+<section>
+<h2>Unit 3: Clocks, Synchronization, Election &amp; Mutual Exclusion</h2>
+<div class="cols">
+<div><h3>Physical Clock Terms</h3>
+<ul><li><b>Offset</b> = difference between two clocks at an instant. <b>Skew</b> = difference in rate. <b>Drift</b> = rate error × time.</li>
+<li>Physical clocks: real-time, need sync, ms accuracy. Logical clocks: ordering only, no real time.</li></ul>
+<div class="ex"><b>Ex:</b> A=10:00:00, B=10:00:07, B gains 0.002 s/s. Initial offset 7 s; extra after 1 h = 0.002×3600 = 7.2 s; total 14.2 s, B ahead.<br>
+Drift/day: 0.0001×86400 = 8.64 s; 0.01×86400 = 864 s; ratio = 100.</div></div>
+
+<div><h3>Cristian's Algorithm</h3>
+<ul><li>Client asks time server; <code>T_client = T_server + RTT/2</code>. Accuracy ± (RTT/2 − min delay).</li>
+<li>Limits: single server = SPOF (if down, no sync), asymmetric delay error.</li></ul>
+<div class="ex"><b>Ex:</b> send 10:00:00.000, receive 10:00:00.400, T_server=10:00:00.250. RTT=400 ms; one-way=200 ms; set 10:00:00.450; uncertainty ±200 ms.<br>
+<b>Ex:</b> delays 1 s out, 5 s back, T=12:00:10. RTT=6 s; estimate 12:00:13; true 12:00:15; error 2 s (client behind).<br>
+<b>Ex:</b> 10:25:12 → 10:25:18, T=10:25:15. RTT=6 s; delay 3 s; set 10:25:18; differs since delays may be asymmetric.</div></div>
+
+<div><h3>Berkeley Algorithm</h3>
+<ul><li>Coordinator polls machines, averages (ignores outliers), sends each <i>adjustment</i> (not absolute time). No UTC needed; internal sync.</li>
+<li>Limits: coordinator failure, needs election.</li></ul>
+<div class="ex"><b>Ex:</b> average 10:00:15, machine shows 10:00:20 → adjust −5 s.</div></div>
+
+<div><h3>NTP</h3>
+<ul><li>Hierarchical strata, UTC-connected, internet; accuracy ~ms (LAN) to tens of ms (WAN), so suitable for ms-level needs.</li>
+<li><code>offset θ = ((t1−t0)+(t2−t3))/2</code>, <code>delay δ = (t3−t0)−(t2−t1)</code></li></ul>
+<div class="ex"><b>Ex:</b> t0=50, t1=90, t2=95, t3=130: θ=(40−35)/2=2.5 ms; δ=80−5=75 ms; θ&gt;0 so client is behind server by 2.5 ms.</div>
+<h3>Time Dissemination Delays</h3>
+<ul><li>Signal generation/propagation, receiver processing, network transit, OS interrupt/scheduling, clock-set latency.</li></ul></div>
+
+<div><h3>Lamport Logical Clock</h3>
+<ul><li>Rules: increment before each event; send with timestamp; on receive <code>C = max(local, msg) + 1</code>.</li>
+<li>Clock condition: a→b ⇒ C(a) &lt; C(b); converse false, so cannot detect concurrency.</li></ul>
+<div class="ex"><b>Ex (P1→P2→P3→P2→P1):</b> m1=1; P2 recv=2, m2=3; P3 recv=4, m3=5; P2 recv=6, m4=7; P1 recv=8. Final P1=8, P2=7, P3=5.<br>
+<b>Ex (bank):</b> M1=1; P2 recv 2, M2=3; M3=2; P3 recv M2=4, M3=5, M4=6; P1 recv=7. Final P1=7, P2=3, P3=6.<br>
+<b>Ex (local events):</b> P1 local 1, m1=2; P2 recv 3, local 4, m2=5; P3 recv 6, local 7, m3=8; P1 recv 9, m4=10; P3 recv 11.</div></div>
+
+<div><h3>Vector Clock</h3>
+<ul><li>Vector of n counters. Local event: increment own; receive: element-wise max then increment own.</li>
+<li>V1&lt;V2 iff all ≤ and one &lt; (happened-before); otherwise concurrent. Captures causality (Lamport doesn't).</li></ul>
+<div class="ex"><b>Ex:</b> [2,1,0] vs [1,2,0] → concurrent. [3,2,1] vs [4,2,2] → first happened before second.<br>
+<b>Cart:</b> [1,0,1] vs [2,0,0] concurrent → keep both versions, merge (union), new clock [2,0,1].</div>
+<h3>Lamport Ordering (Healthcare)</h3>
+<ul><li>Order prescription, lab, allergy updates by (timestamp, process ID) → consistent total order across replicas.</li></ul></div>
+
+<div><h3>Bully Election</h3>
+<ul><li>Highest ID wins. Process noticing failure sends ELECTION to higher IDs; any alive replies OK and takes over; highest alive broadcasts COORDINATOR.</li></ul>
+<h3>Ring Election</h3>
+<ul><li>Logical ring; ELECTION message collects IDs as it circulates; initiator picks highest, sends COORDINATOR around ring.</li></ul>
+<div class="ex"><b>Ex:</b> P5 (coordinator) fails, P2 detects. Bully: P2→P3,P4,P6; P3,P4 reply, P4 continues, P6 wins. Ring: list [2,3,4,6] circulates, 6 chosen.</div></div>
+
+<div><h3>Lamport Mutual Exclusion</h3>
+<ul><li>Broadcast REQUEST(ts,id) to all; every process replies (REPLY) and queues request; enter CS when own request is at head of queue and replies from all received; on exit broadcast RELEASE. Cost 3(N−1) messages.</li></ul>
+<div class="ex"><b>Ex:</b> P1, P2 request with equal timestamp → tie broken by smaller process ID, so P1 enters first; P2 enters after P1's RELEASE. Flash-sale: lowest (ts,id) data center buys last item, preventing overselling.</div>
+<h3>Comparison</h3>
+<ul><li>Physical: real time, needs sync. Logical: ordering only.</li>
+<li>Cristian: server-based, needs time server. Berkeley: averaging, no UTC.</li>
+<li>Lamport: single integer, partial info. Vector: n integers, detects concurrency.</li></ul></div>
+</div>
+</section>
+
+<section>
+<h2>Unit 4: Distributed File Systems, Web &amp; Cloud Paradigms</h2>
+<div class="cols">
+<div><h3>DFS vs Conventional File System</h3>
+<ul><li>DFS: files across many nodes, network access, replication, location transparency, scalable, fault tolerant. Conventional: single machine/disk, local access, limited capacity, single failure point, no network latency.</li></ul>
+<div class="ex"><b>Ex:</b> centralized file server limits storage, throughput and availability; DFS spreads and replicates data.</div></div>
+
+<div><h3>HDFS / Hadoop</h3>
+<ul><li><b>NameNode</b> (metadata), <b>DataNodes</b> (blocks, default 128 MB), 3 replicas, heartbeats.</li>
+<li><b>Replica placement:</b> 1st on writer's node, 2nd on a different rack, 3rd on another node in that rack → survives node or rack failure, reduces cross-rack traffic.</li>
+<li><b>MapReduce:</b> computation moves to data (data locality); map → shuffle → reduce.</li></ul>
+<div class="ex"><b>Ex (log analysis):</b> web layer uploads logs → HDFS → MapReduce/Spark → results served by web app.</div></div>
+
+<div><h3>Distributed Objects</h3>
+<ul><li>Remote objects via proxy/skeleton (RMI, CORBA). Differences from local: latency, partial failure, no shared memory, need object references and serialization.</li></ul>
+<div class="ex"><b>Ex:</b> Customer/Account/Transaction on different machines → coarse-grained calls, handle failures and transactions.</div></div>
+
+<div><h3>Web, CDN &amp; Cloudflare</h3>
+<ul><li>Single origin = distance latency + overload. Fix: load balancer, caching, replicated servers, CDN.</li>
+<li><b>Cloudflare:</b> edge caching, DNS, DDoS/WAF; cached static content served from nearest edge → lower latency, less origin load.</li></ul>
+<div class="ex"><b>Ex:</b> Pune/Delhi/London users on one origin: far users slow; edge caches cut response time.</div></div>
+
+<div><h3>Megaport</h3>
+<ul><li>Private multi-cloud/data-center connectivity (Software-defined) with predictable latency, controllable network, high availability vs public internet. Cloudflare = edge delivery/security; Megaport = private interconnect.</li></ul>
+
+<h3>AWS</h3>
+<ul><li>Compute: EC2, Auto Scaling, ELB. Storage: S3 (objects), EBS, RDS. Network: VPC, Route 53, CloudFront.</li></ul>
+<div class="ex"><b>Ex:</b> EC2 behind ELB + S3 + RDS in a VPC with Auto Scaling for variable load.</div></div>
+
+<div><h3>Kubernetes</h3>
+<ul><li>Pod (smallest unit), Deployment/ReplicaSet (desired replicas), Service (stable IP, load balancing), Scheduler (places pods), kubelet, etcd, HPA (autoscale).</li>
+<li>Pod fails → ReplicaSet creates replacement; Service routes to healthy pods. Node fails → pods rescheduled on other nodes (limits: stateful data, detection delay, capacity).</li>
+<li>Single pod = SPOF and no scaling.</li></ul>
+<div class="ex"><b>Ex:</b> 3 replicas: one pod fails → Service stops routing to it, Deployment launches new pod; availability maintained.</div></div>
+
+<div><h3>Serverless</h3>
+<ul><li>Event-driven functions (AWS Lambda), auto-scale to zero, pay per use. Good for spiky, short tasks (file processing: S3 upload → Lambda → store result).</li>
+<li>Less suitable: long-running, steady high load, low-latency (cold starts), vendor lock-in, state.</li></ul>
+<div class="ex"><b>Ex (result portal, 2-hr peak):</b> serverless best for spiky load; Kubernetes for steady complex services; servers wasteful.</div></div>
+
+<div><h3>Object Storage vs DFS</h3>
+<ul><li>Object storage (S3): flat namespace, HTTP API, huge scale, durable, cheap, no POSIX. DFS: hierarchical, file semantics, analytics (HDFS).</li></ul>
+<h3>Monolith → Distributed Migration</h3>
+<ul><li>Monolith: scaling and failure limits. Use web services/tiers first, containers/Kubernetes for orchestration, serverless for event tasks, replicated storage.</li></ul>
+<div class="ex"><b>Ex (college system):</b> load balancer + replicated app servers (K8s) + HDFS/DFS storage + CDN caching.</div></div>
+</div>
+</section>
+</body></html>
