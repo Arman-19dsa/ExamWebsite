@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DevOps Cheat Sheet – Topic by Topic</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#07080b;--ink:#f3f4f8;--mut:#8a8fa3;--card:rgba(255,255,255,0.03);--line:rgba(255,255,255,0.09);--acc:#35d6a0;--tint:rgba(53,214,160,0.10);--code:rgba(255,255,255,0.07);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Inter Tight",system-ui,sans-serif}
+body::before{content:"";display:block;height:4px;background:var(--acc)}
+main{max-width:980px;margin:auto;padding:20px 16px 50px}
+h1{font-size:28px;margin:0 0 14px;color:var(--acc)}
+.sub{color:var(--mut);margin:0 0 14px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px;padding:0;list-style:none}
+.toc a{display:block;padding:3px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);text-decoration:none;font-size:13px}
+.toc a:hover{background:var(--acc);color:var(--bg)}
+section{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:8px;padding:12px 16px;margin:14px 0}
+h2{font-size:19px;margin:0 0 8px;color:var(--acc);border-bottom:2px solid var(--tint);padding-bottom:4px}
+h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:10px 0 3px}
+ul{margin:0;padding-left:20px}li{margin:1px 0}
+code{font:13px ui-monospace,Menlo,Consolas,monospace;background:var(--code);padding:1px 5px;border-radius:3px}
+.ex{background:var(--tint);border-left:4px solid var(--acc);padding:6px 10px;border-radius:4px;margin-top:10px}
+button{float:right;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:3px 10px;cursor:pointer}
+footer{color:var(--mut);font-size:12px;text-align:center}
+@media print{button,.toc{display:none}section{break-inside:avoid}}
+</style></head><body><main>
+<h1>DevOps Cheat Sheet</h1>
+
+<section id="a1"><h2>1. DevOps culture and models</h2>
+<h3>Purpose</h3><ul><li>Remove the wall of confusion between Dev and Ops for fast, safe delivery.</li><li>CAMS: Culture, Automation, Measurement, Sharing.</li><li>Three Ways: Flow (small batches, WIP limits), Feedback (tests, monitoring), Continual learning (blameless, chaos, game days).</li></ul>
+<h3>Tools and metrics</h3><ul><li>DORA metrics: deployment frequency, lead time, change failure rate, time to restore.</li><li>Evolution: 2008 Agile Infrastructure, 2009 DevOpsDays, then CI/CD, DevSecOps, SRE, platform engineering.</li><li>Chaos Monkey (Netflix): kills instances to test resilience.</li></ul>
+<h3>Steps</h3><ul><li>Diagnose with CAMS, automate the pipeline, measure DORA, share via retros.</li></ul>
+<div class="ex">Example: Etsy moved from rare, risky releases to many daily deploys using automation and shared dashboards.</div></section>
+
+<section id="a2"><h2>2. Agile, Scrum and Kanban</h2>
+<h3>Purpose</h3><ul><li>Agile builds software in short cycles; DevOps extends it to operations.</li></ul>
+<h3>Key differences</h3><ul><li>Agile scope: development. DevOps scope: idea to production and operation.</li><li>Scrum: fixed sprints, roles, velocity. Kanban: continuous flow, WIP limits, cycle time.</li><li>Kanban suits ops and support work; Scrum suits planned features.</li></ul>
+<h3>Steps</h3><ul><li>Add pipeline and monitoring work to the sprint backlog, and extend the Definition of Done with tests, scan and deployable.</li></ul>
+<div class="ex">Example: A support team limits In Progress to 3 cards and sees reviews pile up, so it adds reviewers.</div></section>
+
+<section id="a3"><h2>3. Version control with Git</h2>
+<h3>Purpose</h3><ul><li>Track changes, enable parallel work and collaboration. Distributed, fast, SHA-1 integrity.</li><li>Three areas: working directory, staging area, repository.</li></ul>
+<h3>Tools</h3><ul><li>Git (local), GitHub, GitLab, Bitbucket (hosting). SVN is the centralized alternative.</li><li>Branching: Git Flow, GitHub Flow, trunk-based (best for many releases a day).</li></ul>
+<h3>Commands</h3><ul>
+<li><code>git init</code>, <code>git clone url</code>, <code>git status</code>, <code>git diff</code>, <code>git log --oneline --graph</code></li>
+<li><code>git add .</code>, <code>git commit -m "msg"</code>, <code>git push</code>, <code>git fetch</code>, <code>git pull</code></li>
+<li><code>git branch</code>, <code>git switch -c feat</code>, <code>git merge feat</code>, <code>git rebase main</code> (never on shared branches)</li>
+<li><code>git reset --soft|--mixed|--hard</code> (rewrites history), <code>git revert sha</code> (safe undo)</li>
+<li><code>git stash</code>, <code>git stash pop</code>, <code>git cherry-pick sha</code>, <code>git tag -a v1 -m "x"</code></li>
+<li>Conflict: edit markers, <code>git add</code>, <code>git commit</code>; cancel with <code>git merge --abort</code>. Use <code>.gitignore</code> for target/, __pycache__/, .env</li></ul>
+<div class="ex">Example: Hotfix while a feature is half done: stash, branch from main, fix, merge, then stash pop. Leaked AWS key: rotate it first, then purge history.</div></section>
+
+<section id="a4"><h2>4. GitHub and GitHub Actions</h2>
+<h3>Purpose</h3><ul><li>Hosting, pull requests, code review and workflow automation. Git is the tool; GitHub is the service.</li></ul>
+<h3>Tools</h3><ul><li>Pull requests, branch protection, CODEOWNERS, Issues (tasks), Projects (boards), fork vs clone.</li><li>Actions: events (<code>push</code>, <code>pull_request</code>, <code>schedule</code>, <code>workflow_dispatch</code>), jobs, runners, steps (<code>uses</code>, <code>run</code>).</li></ul>
+<h3>Steps</h3><ul><li>Jobs run in parallel; <code>needs:</code> makes them sequential. <code>strategy.matrix</code> tests many OS and versions.</li></ul>
+<div class="ex">Example: <code>on: [push]</code> then <code>runs-on: ubuntu-latest</code> with steps <code>uses: actions/checkout@v4</code> and <code>run: npm test</code>.</div></section>
+
+<section id="a5"><h2>5. CI/CD concepts</h2>
+<h3>Purpose</h3><ul><li>CI: merge often with automatic build and test. Continuous Delivery: always releasable, manual approval to production. Continuous Deployment: every passing change goes live.</li></ul>
+<h3>Pipeline stages</h3><ul><li>Code, build, test, release (artifact), deploy, monitor. Pipeline as Code keeps it in Git.</li><li>Promotion: dev, staging, production with quality gates and manual approval.</li></ul>
+<h3>Steps</h3><ul><li>Build once, promote the same artifact, fail fast, and notify on failure.</li></ul>
+<div class="ex">Example: A bank delivers daily but a manager approves production; a streaming site deploys every passing commit.</div></section>
+
+<section id="a6"><h2>6. Jenkins</h2>
+<h3>Purpose</h3><ul><li>Automation server for CI/CD. Controller schedules; agents (labelled) run builds.</li></ul>
+<h3>Tools</h3><ul><li>Freestyle job, declarative Jenkinsfile, shared libraries, Credentials plugin, post actions (email, Slack).</li><li>Triggers: pollSCM, cron, GitHub webhook.</li></ul>
+<h3>Steps</h3><ul><li>Install JDK and Jenkins, open port 8080, unlock, install suggested plugins.</li><li>Jenkinsfile: <code>pipeline { agent { label 'linux' } stages { stage('Build'){ steps { sh 'mvn package' } } } }</code></li><li>Troubleshoot with Console Output and build history.</li></ul>
+<div class="ex">Example: A push triggers a webhook, Jenkins builds, tests, builds a Docker image and updates Kubernetes.</div></section>
+
+<section id="a7"><h2>7. Maven, SonarQube, Nexus</h2>
+<h3>Purpose</h3><ul><li>Maven builds Java projects. SonarQube checks quality. Nexus or Artifactory stores artifacts.</li></ul>
+<h3>Tools</h3><ul><li>pom.xml, JUnit with Surefire plugin, multi-module parent POM, quality gate (coverage, code smells).</li></ul>
+<h3>Commands</h3><ul><li>Lifecycle: validate, compile, test, package, verify, install, deploy.</li><li><code>mvn archetype:generate</code>, <code>mvn clean package</code>, <code>mvn test</code>, <code>mvn deploy</code></li><li>Layout: src/main/java, src/test/java, target/</li></ul>
+<div class="ex">Example: waitForQualityGate abortPipeline fails the build when coverage drops below the threshold.</div></section>
+
+<section id="a8"><h2>8. GitLab CI</h2>
+<h3>Purpose</h3><ul><li>Built-in CI/CD in GitLab, configured by <code>.gitlab-ci.yml</code>.</li></ul>
+<h3>Tools</h3><ul><li>Stages, jobs, artifacts, cache, rules, environments, GitLab Runner.</li></ul>
+<h3>Steps</h3><ul><li><code>stages: [build, test, deploy]</code> then jobs with <code>script:</code>.</li><li>Register a runner: <code>gitlab-runner register</code> with URL and token.</li></ul>
+<div class="ex">Example: Deploy to staging from develop automatically; production from main with <code>when: manual</code>.</div></section>
+
+<section id="a9"><h2>9. Docker</h2>
+<h3>Purpose</h3><ul><li>Package an app and its dependencies as a portable container. Lighter than VMs because the kernel is shared.</li></ul>
+<h3>Architecture</h3><ul><li>Client, daemon, images (read-only), containers (running), registry (Docker Hub, ECR).</li><li>Dockerfile: FROM, WORKDIR, COPY, RUN, EXPOSE, USER, CMD. Multi-stage builds and .dockerignore keep images small.</li></ul>
+<h3>Commands</h3><ul>
+<li><code>docker pull nginx</code>, <code>docker run -d -p 8080:80 --name web nginx</code>, <code>docker ps</code>, <code>docker stop web</code>, <code>docker rm web</code></li>
+<li><code>docker build -t app:1.0 .</code>, <code>docker push user/app:1.0</code>, <code>docker exec -it web sh</code>, <code>docker logs web</code></li>
+<li><code>docker volume create v</code>, <code>-v v:/data</code>, <code>--memory 256m</code>, <code>docker network create n</code> (name resolution between containers)</li></ul>
+<div class="ex">Example: MySQL data kept in volume dbdata survives container removal and image upgrades.</div></section>
+
+<section id="a10"><h2>10. Docker Compose and microservices</h2>
+<h3>Purpose</h3><ul><li>Run multi-container apps from one file. Microservices split an app into small services, each with its own database.</li></ul>
+<h3>Tools</h3><ul><li>docker-compose.yml: services, networks, volumes, environment, depends_on.</li><li>Communication: REST for direct calls, messaging (Kafka, RabbitMQ) for events. API gateway as single entry.</li></ul>
+<h3>Commands</h3><ul><li><code>docker compose up -d</code>, <code>docker compose down</code></li><li>Challenges: no cross-service transactions (use Saga), eventual consistency.</li></ul>
+<div class="ex">Example: WordPress service plus MySQL service with a dbdata volume; food-delivery split into order, payment and delivery services.</div></section>
+
+<section id="a11"><h2>11. Kubernetes</h2>
+<h3>Purpose</h3><ul><li>Orchestrates containers: scheduling, scaling, self-healing, rolling updates.</li></ul>
+<h3>Architecture</h3><ul><li>Control plane: API server, etcd, scheduler, controller manager. Node: kubelet, kube-proxy, container runtime.</li><li>Objects: Pod, ReplicaSet, Deployment, Service (ClusterIP, NodePort, LoadBalancer), ConfigMap, Secret, PVC, Namespace.</li><li>HPA: desired = ceil(current x currentCPU / targetCPU). Liveness restarts; readiness gates traffic.</li></ul>
+<h3>Commands</h3><ul>
+<li><code>kubectl get nodes|pods|svc</code>, <code>kubectl apply -f x.yaml</code>, <code>kubectl describe pod p</code></li>
+<li><code>kubectl logs p</code>, <code>kubectl exec -it p -- sh</code>, <code>kubectl delete pod p</code>, <code>kubectl create namespace dev</code></li>
+<li><code>kubectl rollout status|history|undo deploy/web</code>, <code>kubectl autoscale deploy web --min=2 --max=10 --cpu-percent=50</code>, <code>kubectl expose deploy web --type=NodePort --port=80</code></li></ul>
+<div class="ex">Example: 4 pods at 80% CPU with a 50% target scale to ceil(4 x 80 / 50) = 7 pods.</div></section>
+
+<section id="a12"><h2>12. Deployment strategies</h2>
+<h3>Purpose</h3><ul><li>Release with little or no downtime and a safe rollback.</li></ul>
+<h3>Strategies</h3><ul><li>Recreate: stop old, start new (downtime).</li><li>Rolling: replace gradually (maxSurge, maxUnavailable).</li><li>Blue-green: two environments, switch traffic, instant rollback.</li><li>Canary: 10% of users first, metrics decide promote or rollback.</li><li>Feature toggles: separate deployment from release.</li></ul>
+<div class="ex">Example: v2 shows 3% errors against 0.5% in v1 during canary, so traffic goes back to v1.</div></section>
+
+<section id="a13"><h2>13. Terraform and IaC</h2>
+<h3>Purpose</h3><ul><li>Declarative Infrastructure as Code: idempotent, versioned, repeatable, self-documenting. Supports immutable infrastructure.</li></ul>
+<h3>Tools</h3><ul><li>Provider, resource, variables.tf, outputs.tf, modules (pin versions), state.</li><li>Remote state: S3 plus DynamoDB lock. Environments: workspaces or separate directories.</li><li>Drift: scheduled <code>terraform plan</code>. Secrets: Vault, Secrets Manager, sensitive variables.</li></ul>
+<h3>Commands</h3><ul><li><code>terraform init</code>, <code>plan</code>, <code>apply</code>, <code>destroy</code>, <code>fmt</code>, <code>validate</code></li></ul>
+<div class="ex">Example: provider aws region ap-south-1, then an aws_s3_bucket resource, applied after reviewing the plan.</div></section>
+
+<section id="a14"><h2>14. Ansible and configuration management</h2>
+<h3>Purpose</h3><ul><li>Agentless configuration over SSH. Terraform provisions; Ansible configures.</li></ul>
+<h3>Tools</h3><ul><li>Inventory (groups), playbook (YAML), module, task, role, handler (runs on change).</li></ul>
+<h3>Commands</h3><ul><li><code>ansible all -i inventory.ini -m ping</code></li><li><code>ansible-playbook -i inventory.ini site.yml</code></li><li>Tasks: <code>apt: name=apache2 state=present</code>, <code>service: name=apache2 state=started</code>, <code>user: name=devuser</code></li></ul>
+<div class="ex">Example: One playbook with an nginx role configures 50 web servers and restarts Nginx only when the config changes.</div></section>
+
+<section id="a15"><h2>15. Cloud: AWS, RDS and Aurora</h2>
+<h3>Purpose</h3><ul><li>Rent infrastructure on demand. IaaS (EC2), PaaS (Elastic Beanstalk, RDS), SaaS (WorkMail).</li></ul>
+<h3>Tools</h3><ul><li>Equivalents: EC2 / Azure VM / Compute Engine; S3 / Blob / Cloud Storage; RDS / Azure SQL / Cloud SQL; EKS / AKS / GKE.</li><li>RDS: Multi-AZ (failover), read replicas (scale reads, DR), automated backups, snapshots.</li><li>Aurora: 1 writer plus readers, shared storage in 3 AZs, fast failover.</li></ul>
+<h3>Steps</h3><ul><li>RDS console: Create database, choose engine, set credentials, class, storage, VPC and security group, backups, then Create.</li><li>Migration: assess, rehost, then replatform; EC2 + RDS + S3.</li></ul>
+<div class="ex">Example: A shop writes to the Aurora writer and sends product searches to readers during a sale.</div></section>
+
+<section id="a16"><h2>16. Prometheus and Grafana</h2>
+<h3>Purpose</h3><ul><li>Collect metrics (pull model) and visualize them.</li></ul>
+<h3>Tools</h3><ul><li>Prometheus server, exporters (Node Exporter), Pushgateway, Alertmanager (group, inhibit, silence), Grafana dashboards and variables.</li><li>Metric types: Counter, Gauge, Histogram, Summary.</li><li>Methods: Golden Signals (latency, traffic, errors, saturation), RED for services, USE for infrastructure.</li></ul>
+<h3>Commands and steps</h3><ul><li>prometheus.yml: <code>scrape_configs: - job_name: app, static_configs: targets: ['host:8080']</code></li><li>PromQL: <code>rate(http_requests_total[5m])</code>, <code>sum by (job)(rate(...))</code>, <code>histogram_quantile(0.95, ...)</code></li><li>Grafana: add Prometheus data source, build panels, add alerts.</li></ul>
+<div class="ex">Example: Alert when CPU stays above 80% for 5 minutes, routed to Slack.</div></section>
+
+<section id="a17"><h2>17. Centralized logging: ELK</h2>
+<h3>Purpose</h3><ul><li>Collect all logs in one place for search and analysis.</li></ul>
+<h3>Tools</h3><ul><li>Filebeat ships logs; Logstash parses (input, grok filter, output); Elasticsearch stores (index, document, shard); Kibana searches and charts (data views).</li><li>Log levels: DEBUG, INFO, WARN, ERROR. Use JSON logs with correlation IDs.</li></ul>
+<h3>Steps</h3><ul><li>Create a data view, search with KQL such as <code>status >= 500</code>, chart counts by service.</li></ul>
+<div class="ex">Example: Searching one trace ID in Kibana shows a failed order across five services.</div></section>
+
+<section id="a18"><h2>18. Observability and tracing</h2>
+<h3>Purpose</h3><ul><li>Monitoring says that something is wrong; observability helps find why.</li></ul>
+<h3>Tools</h3><ul><li>Three pillars: metrics, logs, traces. Tracing tools: Jaeger, Zipkin, OpenTelemetry.</li><li>Trace is a whole request; span is one unit of work in it.</li></ul>
+<h3>Steps</h3><ul><li>Metrics find where, traces find the slow service, logs explain what.</li></ul>
+<div class="ex">Example: A 3-second checkout trace shows 2.8 seconds in the inventory database query.</div></section>
+
+<section id="a19"><h2>19. SRE: SLI, SLO, SLA and error budget</h2>
+<h3>Purpose</h3><ul><li>Treat operations as software engineering to balance reliability and speed.</li></ul>
+<h3>Key points</h3><ul><li>SLI measured value, SLO internal target, SLA customer contract. Error budget = 100% minus SLO.</li><li>Budget gone: freeze features and fix reliability. Reduce toil by automation.</li><li>Availability = MTBF / (MTBF + MTTR). Metrics: MTTD, MTTA, MTTR.</li><li>On-call: PagerDuty or Opsgenie, escalation, alert on symptoms to reduce fatigue.</li></ul>
+<h3>Numbers</h3><ul><li>99.9% per month (43,200 min) = 43.2 min; 99.5% = 216 min (3.6 h).</li><li>Per year: 99% = 3.65 days, 99.9% = 8.76 h, 99.99% = 52.6 min.</li></ul>
+<div class="ex">Example: A 60-minute outage uses the full 43.2-minute budget, so releases pause.</div></section>
+
+<section id="a20"><h2>20. Incident management and post-mortem</h2>
+<h3>Purpose</h3><ul><li>Restore service fast and learn without blame.</li></ul>
+<h3>Steps</h3><ul><li>Detect, triage (severity), assign Incident Commander, communicate, mitigate (rollback or failover), resolve, close.</li><li>Post-mortem: summary, impact, timeline, root cause, what went well or badly, action items with owners.</li></ul>
+<div class="ex">Example: A primary database crash is handled by promoting the replica in 10 minutes while the commander posts updates.</div></section>
+
+<section id="a21"><h2>21. DevSecOps</h2>
+<h3>Purpose</h3><ul><li>Shift left: add security checks early in the pipeline.</li></ul>
+<h3>Tools and placement</h3><ul><li>Secrets detection (gitleaks) at commit; SAST (SonarQube, CodeQL) after build; dependency scan (Snyk, OWASP Dependency-Check); image scan (Trivy); DAST (OWASP ZAP) in staging.</li><li>Keep secrets in Vault, Secrets Manager, Jenkins Credentials or Kubernetes Secrets, never in code.</li></ul>
+<h3>Commands</h3><ul><li><code>trivy image app:1.0</code>, <code>gitleaks detect</code></li></ul>
+<div class="ex">Example: The build fails because a library has a critical vulnerability.</div></section>
+<footer>Built from the DevOps (BCE27PE01) question bank.</footer>
+</main>
+</body></html>

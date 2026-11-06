@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOMD Cheat Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #ffb84d; --bg: #07080b; --card: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.09); --text: #f3f4f8; --muted: #8a8fa3;
+  }
+  body { font-family: "Inter Tight", system-ui, sans-serif; font-size: 15px; line-height: 1.55;
+    color: var(--text); background: var(--bg); max-width: 960px; margin: 0 auto; padding: 16px 20px 40px; }
+  h1 { background: var(--accent); color: var(--bg); padding: 10px 14px; margin: 0 0 14px; font-size: 22px; border-radius: 6px; }
+  h2 { color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 3px; margin: 26px 0 8px; font-size: 18px; }
+  h3 { color: var(--text); margin: 14px 0 4px; font-size: 15px; }
+  ul { margin: 4px 0 8px 20px; padding: 0; color: var(--text); }
+  li { margin: 2px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 14px; }
+  th, td { border: 1px solid var(--border); padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: rgba(255,184,77,0.14); color: var(--accent); }
+  td { background: var(--card); }
+  pre { background: var(--card); border: 1px solid var(--border); padding: 8px 10px; font-size: 13px; overflow-x: auto; color: var(--text); }
+  .note { background: var(--card); border-left: 4px solid var(--accent); padding: 6px 10px; margin: 8px 0; color: var(--text); }
+  b { color: var(--text); }
+</style>
+</head>
+<body>
+
+<h1>OOMD Cheat Sheet</h1>
+
+
+<h2 id="oop">1. Object-Oriented Thinking and Architectural Thinking</h2>
+<ul>
+  <li><b>Object-oriented thinking:</b> model the domain as objects with data and behaviour, not as functions and data apart.</li>
+  <li><b>Architectural thinking:</b> decide the big structure first (layers, services, data stores), then the classes inside.</li>
+  <li><b>Object responsibilities:</b> each object should know what it needs and do what it owns.</li>
+  <li><b>Class:</b> blueprint with attributes and operations.</li>
+  <li><b>Object:</b> an instance of a class with its own state.</li>
+  <li><b>Encapsulation:</b> hide data; change it only through methods.</li>
+  <li><b>Abstraction:</b> show only essential features.</li>
+  <li><b>Inheritance:</b> child class reuses parent class (is-a).</li>
+  <li><b>Polymorphism:</b> same method name, different behaviour per class.</li>
+</ul>
+<div class="note">Example: Shape.area() gives different results for Circle and Rectangle.</div>
+
+<h2 id="uml">2. UML Modelling</h2>
+<ul>
+  <li>UML is a standard visual language to specify, visualize and document software.</li>
+  <li><b>Structural diagrams:</b> class, object, component, deployment, package.</li>
+  <li><b>Behavioral diagrams:</b> use case, sequence, communication, activity, state machine.</li>
+  <li>Class box: name, attributes, operations. Visibility: + public, - private, # protected.</li>
+</ul>
+
+<h2 id="diagrams">3. UML Diagram Types: When to Use</h2>
+<table>
+  <tr><th>Diagram</th><th>Use it when you need to show</th><th>Example</th></tr>
+  <tr><td>Use case</td><td>What users (actors) want from the system</td><td>Member: Borrow Book</td></tr>
+  <tr><td>Class</td><td>Classes, attributes, operations and links (static design)</td><td>User, Order, Product</td></tr>
+  <tr><td>Object diagram</td><td>A snapshot of objects and real values at one moment</td><td>ravi:Member with a loan</td></tr>
+  <tr><td>Sequence</td><td>Order of messages between objects over time</td><td>Login flow</td></tr>
+  <tr><td>Activity</td><td>Steps, decisions and parallel work in a process</td><td>Order processing</td></tr>
+  <tr><td>State machine</td><td>States of one object and the events that change them</td><td>Order: Pending, Paid, Shipped</td></tr>
+  <tr><td>Component</td><td>Software modules and their interfaces</td><td>Payment component</td></tr>
+  <tr><td>Deployment</td><td>Hardware nodes and what runs on them</td><td>Browser, app server, DB server</td></tr>
+  <tr><td>Package</td><td>Grouping of related classes</td><td>billing, inventory packages</td></tr>
+  <tr><td>Communication</td><td>Objects and links, with messages numbered</td><td>Same info as sequence, layout-based</td></tr>
+</table>
+
+<h2 id="rel">4. Relationships</h2>
+<table>
+  <tr><th>Relationship</th><th>Symbol</th><th>One-line example</th></tr>
+  <tr><td>Association</td><td>Plain line</td><td>Student enrolls in Course</td></tr>
+  <tr><td>Dependency</td><td>Dashed arrow</td><td>Report uses Printer</td></tr>
+  <tr><td>Aggregation</td><td>Hollow diamond (part can live alone)</td><td>Department has Professors</td></tr>
+  <tr><td>Composition</td><td>Filled diamond (part dies with whole)</td><td>Order has OrderLines</td></tr>
+  <tr><td>Generalization</td><td>Hollow triangle (is-a)</td><td>Car is a Vehicle</td></tr>
+  <tr><td>Realization</td><td>Dashed line with hollow triangle</td><td>BasicPrinter implements Printer</td></tr>
+</table>
+
+<h2 id="solid">5. SOLID Principles</h2>
+<ul>
+  <li><b>S</b> Single Responsibility: a class has one reason to change.</li>
+  <li><b>O</b> Open/Closed: extend with new classes, do not edit working code.</li>
+  <li><b>L</b> Liskov Substitution: a subclass can replace its parent without breaking behaviour (Square must not break Rectangle rules).</li>
+  <li><b>I</b> Interface Segregation: many small interfaces, not one big one.</li>
+  <li><b>D</b> Dependency Inversion: depend on interfaces, not concrete classes.</li>
+</ul>
+
+<h2 id="grasp">6. GRASP Principles</h2>
+<ul>
+  <li><b>Information Expert:</b> give the job to the class that holds the data.</li>
+  <li><b>Creator:</b> class A creates B if A contains, records or closely uses B.</li>
+  <li><b>Controller:</b> a non-UI class handles a system event.</li>
+  <li><b>Low Coupling:</b> keep links between classes few.</li>
+  <li><b>High Cohesion:</b> keep each class focused.</li>
+  <li><b>Polymorphism:</b> use subclasses instead of type checks.</li>
+  <li><b>Pure Fabrication:</b> invent a helper class for clean design (e.g. StudentRepository).</li>
+  <li><b>Indirection:</b> add a middle object to reduce direct links.</li>
+  <li><b>Protected Variations:</b> hide points of change behind a stable interface.</li>
+</ul>
+
+<h2 id="cc">7. Cohesion and Coupling</h2>
+<ul>
+  <li><b>Cohesion:</b> how related the work inside a class is. Aim for high.</li>
+  <li><b>Cohesion types (weakest to strongest):</b> coincidental, logical, sequential, communicational, functional.</li>
+  <li><b>Coupling:</b> how much classes depend on each other. Aim for low.</li>
+  <li><b>Coupling types (tightest to loosest):</b> content, common, control, stamp, data.</li>
+</ul>
+
+<h2 id="crc">8. CRC Cards and Responsibility Assignment</h2>
+<ul>
+  <li>CRC = Class, Responsibilities, Collaborators. One index card per class.</li>
+  <li>Write what the class knows and what it does, then list the classes it works with.</li>
+  <li>Check for one clear job per card (high cohesion) and few collaborators (low coupling).</li>
+</ul>
+
+<h2 id="tools">9. UML Modelling Tools</h2>
+<ul>
+  <li><b>draw.io:</b> drag and drop, free, good for quick diagrams.</li>
+  <li><b>StarUML:</b> full UML support, good for detailed models.</li>
+  <li><b>Mermaid.js:</b> text code, stores in Git and shows clear diffs.</li>
+</ul>
+
+<h2 id="ddd">10. Domain-Driven Design (Self Study)</h2>
+<ul>
+  <li><b>Entity:</b> has identity (customerId).</li>
+  <li><b>Value object:</b> no identity, defined by values (Address, Money).</li>
+  <li><b>Aggregate root:</b> single entry point to a group of objects (Order).</li>
+  <li><b>Bounded context:</b> a boundary where one model applies (Order, Inventory).</li>
+</ul>
+
+<h2 id="adr">11. Architecture Decision Records (ADR)</h2>
+<ul>
+  <li>A short record of one decision and why it was made.</li>
+  <li>Sections: Title, Status, Context, Decision, Alternatives Considered, Consequences.</li>
+  <li>Templates: Nygard (simple) and MADR (adds decision drivers and pros and cons).</li>
+  <li>Store in Git (for example docs/adr), numbered, never reused.</li>
+</ul>
+
+<h2 id="db">12. Database Design from Class Models</h2>
+<ul>
+  <li>Each class becomes a table. Each attribute becomes a column. Identity becomes the primary key.</li>
+  <li>One-to-many: foreign key on the "many" side.</li>
+  <li>Many-to-many: junction table holding both keys.</li>
+  <li>ER model vs class model: ER shows data only; class model also shows behaviour.</li>
+</ul>
+
+<h2 id="norm">13. Normalization</h2>
+<ul>
+  <li><b>1NF:</b> each cell holds one atomic value (no lists).</li>
+  <li><b>2NF:</b> no partial dependency on part of a composite key.</li>
+  <li><b>3NF:</b> no transitive dependency (non-key depends on non-key).</li>
+  <li><b>BCNF:</b> every determinant is a super key.</li>
+</ul>
+
+<h2 id="orm">14. ORM, DAO and Repository</h2>
+<ul>
+  <li><b>ORM (e.g. Hibernate):</b> maps objects to tables, so code works with objects.</li>
+  <li><b>N+1 problem:</b> one query for the list plus one per item. Fix with join fetch or batch fetching.</li>
+  <li><b>DAO:</b> low-level data access for one table.</li>
+  <li><b>Repository:</b> domain-level collection of objects used by the service layer.</li>
+</ul>
+
+<h2 id="nosql">15. NoSQL Design Concepts</h2>
+<ul>
+  <li><b>Document:</b> flexible JSON-like records (catalogue with varied fields).</li>
+  <li><b>Key-value:</b> fast access by key (shopping cart by session id).</li>
+  <li><b>Column:</b> wide rows, suited to large write volumes.</li>
+  <li><b>Graph:</b> nodes and links (customers also bought).</li>
+  <li>Start from access patterns, then choose the model.</li>
+</ul>
+
+<h2 id="dist">16. Distributed Databases and CAP</h2>
+<ul>
+  <li><b>Partitioning (sharding):</b> split data across servers (range, hash, directory).</li>
+  <li><b>Replication:</b> copies for reads and failover. Replicas can lag behind the primary.</li>
+  <li><b>CAP theorem:</b> during a network partition, choose Consistency (CP) or Availability (AP).</li>
+  <li><b>Read-your-own-writes:</b> after a write, read from the primary for a short time.</li>
+</ul>
+
+<h2 id="index">17. Indexing Strategies</h2>
+<ul>
+  <li>Index columns used in WHERE, JOIN and ORDER BY.</li>
+  <li>Composite index: column order matches the query (customer_id, status, created_at).</li>
+  <li>Leading wildcard (LIKE '%data%') cannot use a normal index. Use full-text or trigram index.</li>
+  <li>Trade-off: indexes speed reads but slow inserts and updates, and use storage.</li>
+</ul>
+
+<h2 id="arch">18. System Design Fundamentals and Architecture Styles</h2>
+<ul>
+  <li><b>Layered:</b> presentation, service, domain, data layers. Dependencies go downward.</li>
+  <li><b>Client-server:</b> clients send requests, servers respond.</li>
+  <li><b>Event-driven:</b> components react to events through a broker.</li>
+  <li><b>Microservices:</b> small services, each owns its data and deploys alone.</li>
+  <li><b>SOA (self study):</b> services connected through an enterprise bus (ESB).</li>
+  <li><b>Trade-off:</b> monolith is simple to run; microservices scale and deploy independently but add complexity.</li>
+</ul>
+
+<h2 id="rest">19. REST API Design</h2>
+<ul>
+  <li>Model resources as nouns: /orders, /orders/{id}/items.</li>
+  <li>Real-world API case studies (self study): study how large public APIs name resources, version and paginate.</li>
+  <li><b>GET</b> read, <b>POST</b> create, <b>PUT</b> replace, <b>DELETE</b> remove.</li>
+  <li>Idempotent: GET, PUT, DELETE (repeat gives same result). POST is not.</li>
+  <li>Versioning: /v1/ in URI or a header, so old clients keep working.</li>
+  <li><b>API Gateway:</b> single entry point for authentication, rate limits and routing.</li>
+</ul>
+
+<h2 id="scale">20. Scalability and Performance</h2>
+<ul>
+  <li><b>Vertical scaling:</b> bigger machine (limited, single point of failure).</li>
+  <li><b>Horizontal scaling:</b> more machines (needs stateless design).</li>
+  <li><b>Load balancing:</b> L4 routes by IP and port; L7 routes by URL and headers.</li>
+  <li><b>Caching:</b> cache-aside, write-through, write-around, write-back. Watch for stampede (use mutex or XFetch).</li>
+  <li><b>CDN:</b> edge servers near users cache static files.</li>
+  <li><b>Database scalability:</b> read replicas, sharding, caching.</li>
+</ul>
+
+<h2 id="ui">21. UI Design Approaches</h2>
+<ul>
+  <li><b>Traditional HTML (server-rendered):</b> each action reloads the page. Simple, low client code.</li>
+  <li><b>React (SPA):</b> the browser builds the page from JSON. Rich interaction, larger bundle.</li>
+  <li><b>HTMX:</b> HTML attributes send requests and swap parts of the page with server HTML. Small JavaScript.</li>
+</ul>
+
+<h2 id="patterns">22. Design Patterns (Syllabus)</h2>
+<h3>Creational</h3>
+<ul>
+  <li><b>Factory:</b> creates the right object without the caller knowing the class (PDF, CSV or JSON exporter).</li>
+  <li><b>Singleton:</b> only one object with one global access point (config manager). Drawback: hard to test.</li>
+</ul>
+<h3>Structural</h3>
+<ul>
+  <li><b>Adapter:</b> translates one interface to another (legacy inventory to new order module).</li>
+</ul>
+<h3>Behavioral</h3>
+<ul>
+  <li><b>Observer:</b> subject notifies observers on change (order status to customer and dashboard).</li>
+  <li><b>Strategy:</b> interchangeable algorithms behind one interface (payment by UPI, card or wallet).</li>
+  <li><b>MVC:</b> Model holds data and rules, View shows data, Controller handles input.</li>
+</ul>
+<pre>
+Strategy:  Context --uses--> &lt;&lt;interface&gt;&gt; Strategy
+                         ^         ^         ^
+                       UPI      Card     Wallet
+Observer:  Subject --notify()--> Observer1, Observer2
+</pre>
+
+<h2 id="qa">23. Architecture Quality Attributes</h2>
+<ul>
+  <li><b>Performance:</b> response time and resource use.</li>
+  <li><b>Scalability:</b> handling more users or data.</li>
+  <li><b>Maintainability:</b> ease of change and fixing.</li>
+  <li><b>Security:</b> authentication, authorization, input validation, encryption.</li>
+  <li><b>Reliability:</b> keeps working when parts fail (transactions, retries, health checks).</li>
+</ul>
+
+<h2 id="deploy">24. Deployment Diagram and Containerization</h2>
+<ul>
+  <li><b>Node:</b> hardware or runtime (server, device). <b>Artifact:</b> deployed file.</li>
+  <li><b>Communication path:</b> label with protocol, such as HTTPS or SQL.</li>
+  <li><b>Containers:</b> package app and dependencies as one image. Same image runs on laptop, test and production.</li>
+  <li>Keep configuration (database address, secrets) outside the image.</li>
+</ul>
+
+<h2 id="case">25a. Case Study: Persistence Layer</h2>
+<ul>
+  <li>Example: E-commerce or library system.</li>
+  <li>Entities: Customer, Product, Order, Book, Member, Loan.</li>
+  <li>Layers: entity classes, repositories (interfaces), DAO or ORM implementation, database.</li>
+  <li>Keep the schema in 3NF, add indexes for common searches, use transactions for orders and stock.</li>
+</ul>
+
+<h2 id="integ">25. Integration of Object Model, Database, API, UI and Deployment</h2>
+<ul>
+  <li>Class model gives business rules and objects.</li>
+  <li>Map classes to tables with keys and constraints.</li>
+  <li>Repositories and services use the mapped objects.</li>
+  <li>API exposes services with clear error responses (400, 401, 404, 500).</li>
+  <li>UI calls only the API. Deployment places each part on nodes.</li>
+  <li>Test each layer, then the full flow end to end.</li>
+</ul>
+<h3>End-to-end system design (self study)</h3>
+<ul>
+  <li>Start from the object model, then the database, API, UI and deployment, in that order.</li>
+  <li>Keep each step traceable to a requirement.</li>
+</ul>
+
+<h2 id="ai">26. AI Tools in Design Work</h2>
+<ul>
+  <li><b>Assignment validation:</b> give the rubric and ask for a score with reasons, then check by hand.</li>
+  <li><b>Design review:</b> use a checklist (patterns, quality attributes, security, deployment, integration).</li>
+  <li><b>Documentation:</b> check generated text against diagrams, code, requirements and ADRs.</li>
+  <li><b>ADR writing:</b> draft the sections, then a human confirms the reasons and alternatives.</li>
+  <li>Never accept AI output without human review.</li>
+</ul>
+
+<h2 id="steps">27. Design Steps for a System</h2>
+<ol>
+  <li>Understand requirements: list actors and use cases (use case diagram).</li>
+  <li>Find domain classes and their responsibilities (CRC cards).</li>
+  <li>Draw the class diagram and assign responsibilities with GRASP and SOLID.</li>
+  <li>Show key behaviour with sequence, activity and state diagrams.</li>
+  <li>Choose architecture style and record decisions in ADRs.</li>
+  <li>Map classes to database tables, normalize to 3NF, add indexes.</li>
+  <li>Design the API (REST resources and methods) and the UI approach.</li>
+  <li>Plan scaling, caching, security and reliability.</li>
+  <li>Draw the deployment diagram and containerize.</li>
+  <li>Review the design against requirements and quality attributes.</li>
+</ol>
+
+<h2>Coverage Checklist</h2>
+<div class="note">
+  Covered: UML modelling, all diagram types, relationships, OOP, SOLID, GRASP, cohesion, coupling, CRC, UML tools,
+  DDD, ADR, DB design from class model, ER vs class, normalization, ORM, DAO and Repository, NoSQL, distributed
+  databases, CAP, indexing, system design, architecture styles, SOA, REST, scaling, load balancing, caching, CDN,
+  UI approaches, architectural thinking, object responsibilities, persistence layer case study, API case studies, end-to-end design, design patterns, quality attributes, deployment and containers, integration, AI tools, design steps.
+</div>
+
+</body>
+</html>
