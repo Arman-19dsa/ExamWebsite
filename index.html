@@ -107,6 +107,16 @@ td:first-child::before{content:"";display:inline-block;width:8px;height:8px;bord
 .sp{position:absolute;bottom:-10px;width:5px;height:5px;border-radius:50%;background:#ffd36a;box-shadow:0 0 8px #ffb83d;opacity:0;animation:spk var(--d) linear infinite;animation-delay:var(--dl)}
 @keyframes spk{0%{transform:translateY(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-440px);opacity:0}}
 @media (prefers-reduced-motion:reduce){.sp,.dbar{display:none}.dy i::before,.dc,.dw.on{animation:none}}
+.faq{margin-top:96px}
+.faq-list{border:1px solid var(--bd);border-radius:20px;background:var(--card);overflow:hidden}
+.faq-item{border-top:1px solid var(--hair)}
+.faq-item:first-child{border-top:none}
+.faq-item summary{cursor:pointer;padding:16px 20px;font-weight:600;list-style:none}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";float:right;color:var(--mute)}
+.faq-item[open] summary::after{content:"\2212"}
+.faq-item ul{margin:0;padding:0 20px 16px 38px;color:var(--mute)}
+.faq-item li{margin:4px 0}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6YQK5QBE0"></script>
@@ -136,6 +146,18 @@ td:first-child::before{content:"";display:inline-block;width:8px;height:8px;bord
 <h2 class="s">Exam schedule</h2>
 <div class="tw"><table><thead><tr><th>Date</th><th>Day</th><th>Subject</th><th>Time</th></tr></thead><tbody id="sched"></tbody></table></div>
 
+<section class="faq" aria-labelledby="faqTitle">
+  <h2 id="faqTitle" class="s">FAQ</h2>
+  <div class="faq-list">
+<details class="faq-item"><summary>How are the question bank solutions made?</summary><ul><li>The notes and syllabus were given to Claude, an AI assistant.</li><li>Claude generated the answers based on those notes.</li><li>Answers are written in short bullet points so they are easy to follow.</li><li>Compare each answer with your notes and your teacher&#x27;s guidance before relying on it.</li></ul></details>
+<details class="faq-item"><summary>Why do some rows show “Soon”?</summary><ul><li>“Soon” means the material has not been uploaded yet.</li><li>It will become a clickable link as soon as the file is ready.</li><li>No action is needed from you. Check back after the next update.</li></ul></details>
+<details class="faq-item"><summary>Where do I find the syllabus for each subject?</summary><ul><li>Each subject card has a Syllabus row.</li><li>Use it to check the topics your exam covers, and match them with your notes and question bank.</li></ul></details>
+<details class="faq-item"><summary>How should I use the question bank?</summary><ul><li>Attempt each question on your own first.</li><li>Then check the solution, and go back to the notes for any topic you got wrong.</li><li>Practise a few questions a day rather than reading all the answers at once.</li></ul></details>
+<details class="faq-item"><summary>Which file should I study first?</summary><ul><li>Start with the syllabus to see what is covered.</li><li>Then read the unit notes, then practise with the question bank.</li><li>Use solutions only to check your answers.</li></ul></details>
+<details class="faq-item"><summary>What is the cheatsheet for?</summary><ul><li>It is a one-page summary of each subject.</li><li>It is useful for a quick revision the night before the exam.</li><li>It does not replace the notes.</li></ul></details>
+<details class="faq-item"><summary>How should I use the infographics?</summary><ul><li>Open an infographic before reading the notes on that topic, to see the big picture.</li><li>Then go back through the notes and use the infographic to check how the ideas connect.</li><li>Use Prev and Next to go through them in order.</li></ul></details>
+  </div>
+</section>
 <section class="doubt">
 <h2 class="s">Have a doubt?</h2>
 <div class="contact">
