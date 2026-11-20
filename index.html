@@ -117,6 +117,8 @@ td:first-child::before{content:"";display:inline-block;width:8px;height:8px;bord
 .faq-item[open] summary::after{content:"\2212"}
 .faq-item ul{margin:0;padding:0 20px 16px 38px;color:var(--mute)}
 .faq-item li{margin:4px 0}
+.cnote{margin:0;padding:12px 18px 16px;font-size:13px;line-height:1.5;color:var(--mute);border-top:1px solid var(--hair)}
+.hnote{display:block;margin-top:8px;font-weight:700;font-size:11px;line-height:1.4;letter-spacing:0;color:#fff}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y6YQK5QBE0"></script>
@@ -203,12 +205,13 @@ function infoRow(id){
   return '<li><button class="rw info" type="button" data-s="'+id+'">Infographics ('+c.n+')'+AR+'</button></li>';
 }
 var g=document.getElementById("grid");
+var NOTE={devops:"The solutions are given by Abhishek sir with a 50% reduction by grouping similar questions together."};
 S.forEach(function(s,i){
  var t="";
  B.forEach(function(b){var u=L[s.id][b[0]];
   if(Array.isArray(u)&&u.length){u.forEach(function(x,k){t+='<li><a class="rw" target="_blank" rel="noopener" href="'+x+'">'+b[1]+' Unit '+(k+1)+AR+'</a></li>';});return;}
-  t+=u?'<li><a class="rw" target="_blank" rel="noopener" href="'+u+'">'+b[1]+AR+'</a></li>':'<li><span class="rw off">'+b[1]+'<em>Soon</em></span></li>';});
- g.insertAdjacentHTML("beforeend",'<article class="card" data-n="'+s.n.toLowerCase()+'" style="--a:'+s.a+';--i:'+i+'"><div class="bar"></div><div class="hd"><div class="dt"><b>Exam '+s.d+'</b><span>2:00 PM</span></div><h3>'+s.n+'</h3></div><ul class="ls">'+t+infoRow(s.id)+'</ul></article>');});
+  t+=u?'<li><a class="rw" target="_blank" rel="noopener" href="'+u+'">'+b[1]+AR+'</a></li>':'';});
+ g.insertAdjacentHTML("beforeend",'<article class="card" data-n="'+s.n.toLowerCase()+'" style="--a:'+s.a+';--i:'+i+'"><div class="bar"></div><div class="hd"><div class="dt"><b>Exam '+s.d+'</b><span>2:00 PM</span></div><h3>'+s.n+(NOTE[s.id]?'<span class="hnote">'+NOTE[s.id]+'</span>':'')+'</h3></div><ul class="ls">'+t+infoRow(s.id)+'</ul></article>');});
 g.addEventListener("pointermove",function(e){document.querySelectorAll(".card").forEach(function(c){var r=c.getBoundingClientRect();c.style.setProperty("--mx",(e.clientX-r.left)+"px");c.style.setProperty("--my",(e.clientY-r.top)+"px")})});
 var pr=document.getElementById("prompts");
 P.forEach(function(p,i){pr.insertAdjacentHTML("beforeend",'<div class="row" style="--c:'+T[i%4][3]+'"><div><h4>'+p[0]+'</h4><p>'+p[1]+'</p></div><button class="copy" data-i="'+i+'">Copy</button></div>')});
